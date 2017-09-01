@@ -1,5 +1,7 @@
 # github-graphql
-GitHub GraphQL API Server
+GitHub GraphQL API Client
+
+A client that takes as input a GitHub query field and outputs a list of repository URLs to disk.
 
 ## Update Go in C9
 https://community.c9.io/t/writing-a-go-app/1725
