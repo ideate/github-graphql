@@ -3,18 +3,28 @@ GitHub GraphQL API Server
 
 ## Update Go in C9
 https://community.c9.io/t/writing-a-go-app/1725
+```
 sudo rm -rf /opt/go
 wget https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
 sudo tar -C /opt -xvf go1.9.linux-amd64.tar.gz
 go version
-
+```
 ## Install Packages
+```
 go get -u golang.org/x/oauth2
 go get -u github.com/shurcooL/githubql
-
+```
+## Create Config File
+```
+config.json
+{
+    "GITHUB_KEY" : "YOUR_KEY"
+}
+```
 ## Run App
+```
 go run main.go 
-
+```
 ## Sample Query
 ```
 query {
