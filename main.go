@@ -89,8 +89,17 @@ func main() {
 	httpClient := oauth2.NewClient(context.Background(), src)
 	client := githubql.NewClient(httpClient)
 
+	// MAKE OUTPUT DIRECTORY IF IT DOES NOT EXIST
+	if _, err := os.Stat("output"); err != nil {
+		err = os.Mkdir("output", 0777)
+		check(err)
+		fmt.Println("Output directory created.")
+	} else {
+		check(err)
+	}
+
 	// OPEN FILE TO BEGIN WRITING
-	file, err := os.OpenFile("output/url", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+	file, err := os.OpenFile("output/url", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0777)
 	check(err)
 	fmt.Println("Local results file ready.")
 	// CLOSE FILE WHEN DONE
@@ -121,7 +130,14 @@ func main() {
 
 		// SUBMIT NEW QUERY FOR FOLLOW ON PAGE
 		err := client.Query(context.Background(), &queryPaginate, queryPaginateVariables)
-		check(err)
+		if err != nil {
+			src = oauth2.StaticTokenSource(
+				&oauth2.Token{AccessToken: config.GITHUB_KEY},
+			)
+			httpClient = oauth2.NewClient(context.Background(), src)
+			client = githubql.NewClient(httpClient)
+		}
+		// check(err)
 		fmt.Printf("Query #%v successful.", i+2)
 		fmt.Printf("\n")
 
